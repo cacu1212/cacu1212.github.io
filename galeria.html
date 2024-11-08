@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería - Young Music</title>
+    <link rel="stylesheet" href="young-music-navigation.css">
+    <style>
+        /* Estilos específicos para la galería */
+        .gallery-container {
+            margin: 120px auto 50px;
+            padding: 2rem 5%;
+            max-width: 1400px;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            background: #f8f9fa;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .gallery-grid.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-item-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-item-info {
+            transform: translateY(0);
+        }
+
+        .gallery-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1100;
+            padding: 2rem;
+        }
+
+        .gallery-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            position: relative;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -2rem;
+            right: -2rem;
+            color: white;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .modal-description {
+            color: white;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-container {
+                padding: 1rem;
+                margin-top: 100px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+
+            .gallery-item img {
+                height: 200px;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+
+            .modal-close {
+                top: -1.5rem;
+                right: -0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav id="nav">
+            <div class="logo">
+                <img src="logo.png" alt="Young Music Logo">
+            </div>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="index.html#about">Sobre Nosotros</a></li>
+                <li><a href="index.html#benefits">Beneficios</a></li>
+                <li><a href="index.html#features">Características</a></li>
+                <li><a href="index.html#contact">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="gallery-container">
+            <div class="gallery-header">
+                <h1>Galería de Young Music</h1>
+                <p>Explora las características y la interfaz de nuestra aplicación</p>
+            </div>
+
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="interface">Interfaz</button>
+                <button class="filter-btn" data-filter="features">Características</button>
+                <button class="filter-btn" data-filter="album">Album</button>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item" data-category="interface">
+                    <img src="imagenes/home.png" alt="Interfaz principal">
+                    <div class="gallery-item-info">
+                        <h3>Interfaz Principal</h3>
+                        <p>Diseño intuitivo y fácil de usar</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="features">
+                    <img src="imagenes/tusmegusta.png" alt="Tus me gustas">
+                    <div class="gallery-item-info">
+                        <h3>Tus me gustas</h3>
+                        <p>Organiza tu música favorita</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="album">
+                    <img src="imagenes/album.png" alt="Interfaz de album">
+                    <div class="gallery-item-info">
+                        <h3>Interfaz de album</h3>
+                        <p>Una interfaz sencilla pero intuitiva</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="album">
+                    <img src="imagenes/comentarios.png" alt="Comentarios">
+                    <div class="gallery-item-info">
+                        <h3>Comentarios</h3>
+                        <p>Publicación de comentarios a un album</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="features">
+                    <img src="imagenes/buscador.png" alt="Buscador">
+                    <div class="gallery-item-info">
+                        <h3>Buscador</h3>
+                        <p>Busca albumes, artistas y descográficas</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item" data-category="interface">
+                    <img src="imagenes/perfil.png" alt="Interfaz de perfil">
+                    <div class="gallery-item-info">
+                        <h3>Interfaz de perfil</h3>
+                        <p>Un interfaz sencillo pero intuitivo</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="interface">
+                    <img src="imagenes/login.png" alt="Interfaz del login">
+                    <div class="gallery-item-info">
+                        <h3>Interfaz del login</h3>
+                        <p>Un interfaz intuitivo para un login</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="interface">
+                    <img src="imagenes/registro.png" alt="Interfaz del registro">
+                    <div class="gallery-item-info">
+                        <h3>Interfaz del registro</h3>
+                        <p>Un interfaz intuitivo para un registro</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="features">
+                    <img src="imagenes/perfildeotraspersonas.png" alt="Perfil de otra persona">
+                    <div class="gallery-item-info">
+                        <h3>Perfil de otro usuario</h3>
+                        <p>Podras ver los perfiles de los otros usuarios</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="album">
+                    <img src="imagenes/creacionalbum.png" alt="Creacion de album">
+                    <div class="gallery-item-info">
+                        <h3>Creacion de album</h3>
+                        <p>Si eres un artista podras crear albumes con tu propia musica</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="gallery-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <img src="" alt="">
+            <div class="modal-description"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Young Music. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="young-music-navigation.js"></script>
+    <script>
+        // Código específico para la galería
+        document.addEventListener('DOMContentLoaded', () => {
+            const galleryGrid = document.querySelector('.gallery-grid');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const modal = document.querySelector('.gallery-modal');
+            const modalImg = modal.querySelector('img');
+            const modalDescription = modal.querySelector('.modal-description');
+            const modalClose = modal.querySelector('.modal-close');
+
+            // Mostrar la galería con animación
+            setTimeout(() => {
+                galleryGrid.classList.add('visible');
+            }, 100);
+
+            // Filtrado de imágenes
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const filter = button.dataset.filter;
+                    
+                    // Actualizar botones activos
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    // Filtrar items
+                    document.querySelectorAll('.gallery-item').forEach(item => {
+                        if (filter === 'all' || item.dataset.category === filter) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Modal de imagen
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const img = item.querySelector('img');
+                    const info = item.querySelector('.gallery-item-info');
+                    
+                    modalImg.src = img.src;
+                    modalImg.alt = img.alt;
+                    modalDescription.innerHTML = info.innerHTML;
+                    modal.classList.add('active');
+                });
+            });
+
+            // Cerrar modal
+            modalClose.addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
