@@ -97,6 +97,13 @@ section.visible {
     margin: 2rem 0;
 }
 
+.logo-detalles{
+    height: 55px;
+    width: 55px;
+    position: relative;
+    top: 50%;
+    transform: translateY(30%);
+}
 .values ul {
     list-style: none;
     display: grid;
